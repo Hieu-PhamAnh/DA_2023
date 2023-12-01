@@ -22,8 +22,6 @@ const chatSchema = new Schema(
   },
   {
     timestamps: true,
-  },
-  {
     versionKey: false, // disable versionKey
   }
 );

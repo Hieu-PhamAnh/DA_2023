@@ -10,8 +10,6 @@ const notiSchema = new Schema(
   },
   {
     timestamps: true,
-  },
-  {
     versionKey: false, // disable versionKey
   }
 );

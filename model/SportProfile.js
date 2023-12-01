@@ -5,8 +5,6 @@ const profileSchema = new Schema(
   {},
   {
     timestamps: true,
-  },
-  {
     versionKey: false, // disable versionKey
   }
 );

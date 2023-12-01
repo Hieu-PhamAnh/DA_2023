@@ -9,8 +9,6 @@ const commentSchema = new Schema(
   },
   {
     timestamps: true,
-  },
-  {
     versionKey: false, // disable versionKey
   }
 );

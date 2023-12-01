@@ -7,7 +7,7 @@ const { Server } = require("socket.io");
 const app = express();
 const http = require("http").Server(app);
 const port = process.env.PORT;
-// const router = require("./route/index");
+const router = require("./route/index");
 const User = require("./model/User");
 const url = process.env.URI;
 const connectDB = async () => {
@@ -25,7 +25,7 @@ app.use("/avatar", express.static("public/uploads/avatars"));
 app.use("/image", express.static("public/uploads/images"));
 app.use(bodyParser.json());
 app.use(express.json());
-// app.use("/api", router);
+app.use("/api/v1", router);
 app.get("/", (req, res) => {
   res.send("Hello World!?");
 });
