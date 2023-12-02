@@ -19,6 +19,7 @@ const UserController = {
   getAllUser: async (req, res) => {
     try {
       const { page, limit } = req.query;
+      // console.log(page, limit);
       const pipeline = [
         {
           $match: {},
@@ -27,8 +28,8 @@ const UserController = {
           $project: {
             password: 0,
             // _id: 0,
-            createdAt: 0,
-            updatedAt: 0,
+            // createdAt: 0,
+            // updatedAt: 0,
           },
         },
         {
@@ -50,6 +51,7 @@ const UserController = {
         },
       ];
       const data = await User.aggregate(pipeline);
+      // console.log("Van chay");
       if (data[0].count.length > 0) {
         return res.status(200).json({
           message: "Thành công",
@@ -71,8 +73,9 @@ const UserController = {
   },
   getUserByID: async (req, res) => {
     try {
-      const id = req.body.verify_id;
-      // console.log(req);
+      const { id } = req.params;
+      // const id = req.body.verify_id;
+      // console.log(id);
       const data = await User.findById(id);
       if (data) {
         return res.status(200).json({
@@ -131,6 +134,60 @@ const UserController = {
       });
     }
   },
+
+  getByUsername: async (req, res) => {
+    try {
+      const { page, limit, username } = req.query;
+      const matchStage = {
+        $match: {
+          username: {
+            $regex: new RegExp(username, "i"), // "i" for case-insensitive
+          },
+        },
+      };
+      const pipeline = [
+        matchStage,
+        {
+          $project: {
+            password: 0,
+          },
+        },
+        {
+          $facet: {
+            count: [
+              {
+                $count: "docs",
+              },
+            ],
+            users: [
+              {
+                $skip: Number(page - 1) * Number(limit), //page * limit,
+              },
+              {
+                $limit: Number(limit), //limit,
+              },
+            ],
+          },
+        },
+      ];
+      const data = await User.aggregate(pipeline);
+
+      return res.status(200).json({
+        success: true,
+        data: data,
+      });
+    } catch (error) {
+      return res.status(404).json({
+        message: "Server error",
+        error: error,
+      });
+    }
+  },
+
+  /**
+   *   User avatar
+   */
+  // chua fix
   changeAvatar: async (req, res) => {
     try {
       const { id } = req.params;
@@ -159,23 +216,44 @@ const UserController = {
     }
   },
 
-  getByUsername: async (req, res) => {
+  /**
+   *   User friends
+   */
+  getUserFriends: async (req, res) => {
     try {
-      const user = await User.find({
-        username: req.params.username,
-      });
-
+      const { id } = req.body;
+      console.log(id);
+      const user = await User.findById(id);
+      // const userId = mongoose.Types.ObjectId(id);
+      // console.log(userId);
+      const pipeline = [
+        { _id: { $in: user.friends } },
+        {
+          $project: {
+            _id: 1,
+            firstName: 1,
+            lastName: 1,
+            avatar: 1,
+          },
+        },
+      ];
+      console.log("van chay");
+      const friends = await User.aggregate(pipeline);
       return res.status(200).json({
         success: true,
-        data: user,
+        data: friends,
       });
     } catch (error) {
-      return res.status(404).json({
+      return res.status(500).json({
         message: "Server error",
         error: error,
       });
     }
   },
+
+  /**
+   *   User posts
+   */
 };
 
 module.exports = UserController;

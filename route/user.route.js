@@ -10,5 +10,10 @@ userRouter.post(
   userMiddleware.checkExist,
   userController.create
 );
-
+userRouter.get("/", userController.getAllUser);
+userRouter.get("/search", userController.getByUsername);
+userRouter.get("/friends", userController.getUserFriends);
+userRouter.get("/:id", userController.getUserByID);
+userRouter.patch("/:id", userController.update);
+userRouter.delete("/:id", userController.delete);
 module.exports = userRouter;
