@@ -1,9 +1,9 @@
 const NOTIFICATION_ACTIONS = {
-  REACT_TO_POST: "react_to_post",
-  ACCEPT_FRIEND_REQUEST: "accept_friend_request",
-  SEND_FRIEND_REQUEST: "send_friend_request",
+  REACT_TO_POST: 'react_to_post',
+  ACCEPT_FRIEND_REQUEST: 'accept_friend_request',
+  SEND_FRIEND_REQUEST: 'send_friend_request',
   //   TAG_IN_POST: "tag_in_post",
-  COMMENT_ON_POST: "comment_on_post",
+  COMMENT_ON_POST: 'comment_on_post',
   //   REPLY_ON_COMMENT: "reply_on_comment",
 };
 
