@@ -1,6 +1,6 @@
-const User = require("../model/User");
-const Token = require("../model/Token");
-const jwt = require("jsonwebtoken");
+const User = require('../model/User');
+const Token = require('../model/Token');
+const jwt = require('jsonwebtoken');
 
 const spawnToken = async (user) => {
   const accessToken = jwt.sign({ _id: user._id }, process.env.ACCESS_KEY, {
@@ -36,18 +36,19 @@ const refresh = async (refreshToken) => {
       // access_token: token.accessToken,
       // expriseAt: token.expriseAt,
     };
+    // console.log(returnData);
     return returnData;
   } catch (error) {
-    if (error.name === "TokenExpiredError") {
+    if (error.name === 'TokenExpiredError') {
       await checkDB.delete();
       returnData = {
-        message: "Refresh token hết hạn",
+        message: 'Refresh token hết hạn',
         error: error,
       };
       return returnData;
     }
     return (returnData = {
-      message: "Refresh Token không hợp lệ",
+      message: 'Refresh Token không hợp lệ',
       error: error,
     });
   }
@@ -55,16 +56,16 @@ const refresh = async (refreshToken) => {
 
 const deleteTokenDB = async (user) => {
   try {
-    const token = await Token.find({ userID: user._id });
+    const token = await Token.find({ userId: user._id });
     // console.log("đã tìm thấy: " + token.length);
     if (token.length > 0) {
       // console.log(token[0].userID);
-      await Token.deleteMany({ userID: token[0].userID });
+      await Token.deleteMany({ userId: token[0].userId });
     }
     return token.length;
   } catch (error) {
     return res.status(500).json({
-      message: "Server error",
+      message: 'Server error',
       error: error,
     });
   }

@@ -496,11 +496,11 @@ const UserController = {
       const user = await User.findById(verify_id);
       const pipeline = [
         { $match: { author: user._id } },
-        {
-          sort: {
-            createdAt: -1,
-          },
-        },
+        // {
+        //   sort: {
+        //     createdAt: -1,
+        //   },
+        // },
         // {
         //   limit: query.limit || 10,
         //   skip: (query.limit || 10) * (query.page - 1 || 0),
