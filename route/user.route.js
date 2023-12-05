@@ -4,6 +4,35 @@ const userController = require('../controller/user.controller');
 const userMiddleware = require('../middleware/user.middleware');
 const authMiddleware = require('../middleware/auth.middleware');
 const validateMiddleware = require('../middleware/validate.middleware');
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs-extra');
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    let dest;
+    if (file.fieldname === 'images') {
+      dest = path.join(__dirname, '../public/images');
+    }
+    fs.mkdirsSync(dest);
+    cb(null, dest);
+  },
+  filename: (req, file, cb) => {
+    const ext = file.mimetype.split('/')[1];
+    const filename = `${file.originalname}`;
+    cb(null, filename);
+  },
+});
+
+const upload = multer({ storage });
+const cpUpload = upload.fields([{ name: 'images', maxCount: 10 }]);
+
+userRouter.post('/upload', cpUpload, (req, res) => {
+  // console.log(req);
+  return res.status(200).json({
+    message: 'Upload success',
+  });
+});
 
 userRouter.post(
   '/',

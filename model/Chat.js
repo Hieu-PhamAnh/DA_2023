@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const chatSchema = new Schema(
@@ -6,15 +6,15 @@ const chatSchema = new Schema(
     participants: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
+        ref: 'User',
       },
     ],
-    lastMessageAt: { type: Date },
+    lastMessageAt: { type: Date, default: null },
     messages: {
       type: [
         {
           type: mongoose.Schema.Types.ObjectId,
-          ref: "Message",
+          ref: 'Message',
         },
       ],
       default: [],
@@ -23,8 +23,8 @@ const chatSchema = new Schema(
   {
     timestamps: true,
     versionKey: false, // disable versionKey
-  }
+  },
 );
 
-const Chat = mongoose.model("Chat", chatSchema);
+const Chat = mongoose.model('Chat', chatSchema);
 module.exports = Chat;
