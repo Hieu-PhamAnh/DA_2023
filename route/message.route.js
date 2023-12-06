@@ -5,5 +5,6 @@ const authMiddleware = require('../middleware/auth.middleware');
 const validateMiddleware = require('../middleware/validate.middleware');
 
 messageRouter.post('/', ChatController.createMessage);
+// need token, cần verify_id và boxchat_id
 
 module.exports = messageRouter;

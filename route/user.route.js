@@ -33,7 +33,7 @@ userRouter.post('/upload', cpUpload, (req, res) => {
     message: 'Upload success',
     filename: req.files.images[0].originalname,
   });
-});
+}); // upload avatar
 
 userRouter.post(
   '/',
@@ -43,10 +43,10 @@ userRouter.post(
 ); // tao tai khoan
 userRouter.post(
   '/friend-requests',
-  // authMiddleware.checkRequired,
-  // authMiddleware.verifiyToken,
+  authMiddleware.checkRequired,
+  authMiddleware.verifiyToken,
   userController.addFriend,
-); // gui loi moi ket ban
+); // gui loi moi ket ban, need token
 userRouter.get('/', validateMiddleware.checkQuerry, userController.getAllUser);
 // get all user
 userRouter.get(
@@ -59,51 +59,51 @@ userRouter.get(
   authMiddleware.checkRequired,
   authMiddleware.verifiyToken,
   userController.getUserFriends,
-); // get user friends
+); // get user friends, need token
 userRouter.get(
   '/friend-requests',
   authMiddleware.checkRequired,
   authMiddleware.verifiyToken,
   userController.getFriendRequests,
-); // get user friend request
+); // get user friend request, need token
 userRouter.get(
   '/posts',
   authMiddleware.checkRequired,
   authMiddleware.verifiyToken,
   userController.getUserPosts,
-); // get user posts
+); // get user posts, need token
 userRouter.delete(
   '/friend-requests',
   authMiddleware.checkRequired,
   authMiddleware.verifiyToken,
   userController.delteFriendRequest,
-); // xoa friend request (can verify id va friend id)
+); // xoa friend request (can verify id va friend id), need token
 userRouter.delete(
   '/friends/:id',
   validateMiddleware.checkValidId,
   authMiddleware.checkRequired,
   authMiddleware.verifiyToken,
   userController.deleteFriend,
-); // xoa ban (can verify id va friend id trong params)
+); // xoa ban (can verify id va friend id trong params), need token
 userRouter.get(
   '/:id',
   validateMiddleware.checkValidId,
   authMiddleware.checkRequired,
   authMiddleware.verifiyToken,
   userController.getUserByID,
-); // get user by id
+); // get user by id, need token
 userRouter.patch(
   '/:id',
   validateMiddleware.checkValidId,
   authMiddleware.checkRequired,
   authMiddleware.verifiyToken,
   userController.update,
-); // update profile
+); // update profile, need token
 userRouter.delete(
   '/:id',
   validateMiddleware.checkValidId,
   authMiddleware.checkRequired,
   authMiddleware.verifiyToken,
   userController.delete,
-); // xoa user
+); // xoa user, need token
 module.exports = userRouter;
