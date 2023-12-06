@@ -28,7 +28,7 @@ const upload = multer({ storage });
 const cpUpload = upload.fields([{ name: 'images', maxCount: 10 }]);
 
 userRouter.post('/upload', cpUpload, (req, res) => {
-  console.log(req.files.images[0].originalname);
+  // console.log(req.files.images[0].originalname);
   return res.status(200).json({
     message: 'Upload success',
     filename: req.files.images[0].originalname,
